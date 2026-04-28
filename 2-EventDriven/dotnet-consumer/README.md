@@ -15,7 +15,7 @@ See [oppgaver.md](oppgaver.md) for workshop tasks.
 
 ```
 dotnet-consumer/
-├── DotnetEvents.slnx               # Solution file (open in VS Code / Visual Studio) Git Test
+├── DotnetEvents.slnx               # Solution file (open in VS Code / Visual Studio)
 ├── Dockerfile                      # Docker build (to be expanded in workshop)
 ├── appsettings.json                # RabbitMQ connection configuration
 ├── Common/                         # Shared library
