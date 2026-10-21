@@ -241,3 +241,35 @@ Configuration was checked against the official
 [hooks reference](https://docs.github.com/en/copilot/reference/hooks-reference)
 and [agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration),
 not assumed solely from workshop examples.
+
+### Task 5: orchestrator («Orkestrator med modellvalg»)
+
+The specialist profiles live in `.github/agents/`. Models were selected from
+the session's `/model` picker rather than guessed identifiers.
+
+| Agent | Model | Tools | Reason |
+| --- | --- | --- | --- |
+| `utforsker` | GPT-6 Luna | `read`, `search` | Lightweight bounded file discovery; returns evidence, not implementation. |
+| `planner` | Claude Opus 5.5 | `read`, `search` | Strong reasoning for cross-file contracts, tests, and risks. |
+| `implementer` | Claude Sonnet 5.5 | `read`, `search`, `edit`, `execute` | Versatile implementation and checks within an approved file scope. |
+| `reviewer` | GPT-6.1 Sol | `read`, `search` | Independent model-family perspective on Claude-authored changes. |
+| `orkestrator` | Claude Opus 5.5 | `read`, `search`, `agent` | Coordinates roles and approval without direct edit or execution tools. |
+
+```bash
+copilot --agent orkestrator -p 'Explore and plan a multi-file feature; stop for approval before implementation.'
+```
+
+The orchestrator can delegate to a writable agent, so excluding `edit` alone
+does not make the team read-only. Its instructions explicitly forbid
+implementation delegation before the specific plan is approved. Permission
+checks and human review remain necessary; agent text is not a sandbox.
+No controlled same-task single-agent versus orchestrator cost benchmark
+was run, so no claim is made that the team is cheaper or uses less context.
+
+The live exercise invoked `utforsker` (GPT-6 Luna), then `planner` (Claude
+Opus 5.5), and stopped with a multi-file `/lowercase` plan. Neither
+`implementer` nor `reviewer` was invoked, and no checks were claimed.
+The full multi-file implementation exercise remains pending plan approval.
+The run also surfaced avoidable questions about script names and workshop
+task numbering; future assignments should name the exercise and file scope
+explicitly rather than asking the specialists to infer them.
