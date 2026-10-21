@@ -63,6 +63,20 @@ app.MapGet("/reverse", (string? text) =>
 .WithSummary("Snu tekst")
 .WithDescription("Snur rekkefølgen på ordene og bokstavene i hvert ord, beholder mellomrom og tegnsetting, og gir resultatet stor forbokstav.");
 
+// --- Store bokstaver ------------------------------------------------------
+app.MapGet("/uppercase", (string? text) =>
+{
+    if (string.IsNullOrWhiteSpace(text))
+    {
+        return Results.BadRequest(new { error = "Parameteren 'text' er påkrevd." });
+    }
+
+    return Results.Ok(new UppercaseResult(text.ToUpperInvariant()));
+})
+.WithName("UppercaseText")
+.WithSummary("Gjør tekst om til store bokstaver")
+.WithDescription("Returnerer teksten med store bokstaver (invariant kultur). Mangler eller er 'text' blank, gis HTTP 400.");
+
 app.Run();
 
 // DTO-er kan ligge i Program.cs når prosjektet er lite.
@@ -70,3 +84,5 @@ app.Run();
 public record Coffee(Guid Id, string Name, decimal Price);
 
 public record ReverseResult(string Result);
+
+public record UppercaseResult(string Result);

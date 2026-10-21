@@ -24,6 +24,7 @@ Når prosjektet kjører:
 | --- | --- |
 | `http://localhost:5035/menu` | Hello Coffee – den opprinnelige kaffemenyen. |
 | `http://localhost:5035/reverse?text=Hello, Andrew` | Snur ordrekkefølgen og bokstavene i hvert ord, beholder tegnsetting, og gir stor forbokstav. Svar: `{"result":"Werdna, olleh"}`. Mangler `text`, får du `400`. |
+| `http://localhost:5035/uppercase?text=Hello, Andrew` | Gjør teksten om til store bokstaver (invariant kultur). Svar: `{"result":"HELLO, ANDREW"}`. Mangler `text` eller er den blank, får du `400`. |
 | `http://localhost:5035/openapi/v1.json` | Den **automatisk genererte** OpenAPI-spesifikasjonen (code-first). |
 | `http://localhost:5035/scalar/v1` | **Scalar** – interaktivt UI for å utforske og teste alle endepunkter. |
 

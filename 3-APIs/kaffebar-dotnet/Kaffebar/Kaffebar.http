@@ -12,6 +12,18 @@ Accept: application/json
 GET {{host}}/reverse
 Accept: application/json
 
+### Store bokstaver
+GET {{host}}/uppercase?text=Hello, Andrew
+Accept: application/json
+
+### Store bokstaver – blank text (gir 400)
+GET {{host}}/uppercase?text=%20%20
+Accept: application/json
+
+### Store bokstaver – mangler text (gir 400)
+GET {{host}}/uppercase
+Accept: application/json
+
 ### Se den genererte OpenAPI-spesifikasjonen (åpne i browser)
 # {{host}}/openapi/v1.json
 
