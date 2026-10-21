@@ -1,11 +1,41 @@
 @host = http://localhost:5035
 
 ### Hent kaffemeny
+# Forventet: 200 OK, JSON-liste med tre drikker. Id er en ny Guid for hver forespørsel.
+# [
+#   {"id":"<guid>","name":"Kaffe Latte","price":48.50},
+#   {"id":"<guid>","name":"Cappuccino","price":45.00},
+#   {"id":"<guid>","name":"Espresso","price":35.00}
+# ]
 GET {{host}}/menu
 Accept: application/json
 
+### Snu tekst – innledende tegnsetting
+# Forventet: 200 OK
+# {"result":"!Werdna, olleh"}
+GET {{host}}/reverse?text=!Hello,%20Andrew
+Accept: application/json
+
+### Snu tekst – tom text (gir 400)
+# Forventet: 400 Bad Request
+# {"error":"Parameteren 'text' er påkrevd."}
+GET {{host}}/reverse?text=
+Accept: application/json
+
+### Snu tekst – blank text (gir 400)
+# Forventet: 400 Bad Request
+# {"error":"Parameteren 'text' er påkrevd."}
+GET {{host}}/reverse?text=%20%20
+Accept: application/json
+
+### Store bokstaver – tom text (gir 400)
+# Forventet: 400 Bad Request
+# {"error":"Parameteren 'text' er påkrevd."}
+GET {{host}}/uppercase?text=
+Accept: application/json
+
 ### Snu tekst
-GET {{host}}/reverse?text=Hello, Andrew
+GET {{host}}/reverse?text=Hello,%20Andrew
 Accept: application/json
 
 ### Snu tekst – mangler text (gir 400)
@@ -13,7 +43,7 @@ GET {{host}}/reverse
 Accept: application/json
 
 ### Store bokstaver
-GET {{host}}/uppercase?text=Hello, Andrew
+GET {{host}}/uppercase?text=Hello,%20Andrew
 Accept: application/json
 
 ### Store bokstaver – blank text (gir 400)

@@ -39,7 +39,7 @@ app.MapGet("/reverse", (string? text) =>
 {
     if (string.IsNullOrWhiteSpace(text))
     {
-        return Results.BadRequest(new { error = "Parameteren 'text' er påkrevd." });
+        return Results.BadRequest(new ErrorResult("Parameteren 'text' er påkrevd."));
     }
 
     var words = Regex.Matches(text, @"\p{L}+")
@@ -61,21 +61,25 @@ app.MapGet("/reverse", (string? text) =>
 })
 .WithName("ReverseText")
 .WithSummary("Snu tekst")
-.WithDescription("Snur rekkefølgen på ordene og bokstavene i hvert ord, beholder mellomrom og tegnsetting, og gir resultatet stor forbokstav.");
+.WithDescription("Snur rekkefølgen på ordene og bokstavene i hvert ord, beholder mellomrom og tegnsetting, og gir resultatet stor forbokstav.")
+.Produces<ReverseResult>(StatusCodes.Status200OK)
+.Produces<ErrorResult>(StatusCodes.Status400BadRequest);
 
 // --- Store bokstaver ------------------------------------------------------
 app.MapGet("/uppercase", (string? text) =>
 {
     if (string.IsNullOrWhiteSpace(text))
     {
-        return Results.BadRequest(new { error = "Parameteren 'text' er påkrevd." });
+        return Results.BadRequest(new ErrorResult("Parameteren 'text' er påkrevd."));
     }
 
     return Results.Ok(new UppercaseResult(text.ToUpperInvariant()));
 })
 .WithName("UppercaseText")
 .WithSummary("Gjør tekst om til store bokstaver")
-.WithDescription("Returnerer teksten med store bokstaver (invariant kultur). Mangler eller er 'text' blank, gis HTTP 400.");
+.WithDescription("Returnerer teksten med store bokstaver (invariant kultur). Mangler eller er 'text' blank, gis HTTP 400.")
+.Produces<UppercaseResult>(StatusCodes.Status200OK)
+.Produces<ErrorResult>(StatusCodes.Status400BadRequest);
 
 app.Run();
 
@@ -86,3 +90,5 @@ public record Coffee(Guid Id, string Name, decimal Price);
 public record ReverseResult(string Result);
 
 public record UppercaseResult(string Result);
+
+public record ErrorResult(string Error);
