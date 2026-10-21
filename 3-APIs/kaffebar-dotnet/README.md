@@ -295,3 +295,37 @@ honestly. The caller subsequently ran all ten guard tests successfully.
 This was one repair and one review, not a test of exhausting all three rounds.
 An earlier invocation exited silently and was replaced by a narrower prompt.
 No application code or guard behavior was changed for this exercise.
+
+### Task 7: parallel work («Parallelle agenter med /fleet»)
+
+A `copilot --plan -p ...` run first defined two non-overlapping file scopes.
+A `copilot --fleet -p ...` run then started two `implementer` workers in
+parallel, each permitted to create only its assigned file:
+
+| Worker | Owned file | Observed check |
+| --- | --- | --- |
+| Path cases | `.github/hooks/tests/test_guard_paths.py` | Six tests passed: quoting, nested paths, example-file exemption, local secrets, and both argument naming formats. |
+| Flag cases | `.github/hooks/tests/test_guard_flags.py` | Three tests passed: recursive removal flags, force-push flags, and harmless command payloads. |
+
+The runtime launch messages identified both workers as Claude Sonnet 5.5,
+matching `implementer.agent.md`. The workers' own text could not identify
+their model, so the model observation comes from the runtime, not a guess.
+The parent confirmed that only the two assigned files were created and ran
+the complete guard suite: 19 tests passed. Payload command strings were
+inspected by the guard, never executed. These tests were green on first run;
+no claim is made that they were observed failing against a broken guard.
+
+In an interactive session, `/tasks` shows active workers; the non-interactive
+exercise observed the worker-start and completion events instead.
+Do not parallelize edits to `Program.cs`, a shared test helper, dependencies,
+or ordered steps of one feature: those workers would contend over shared
+state rather than perform independent work.
+
+### Workshop 2 status
+
+Tasks 1, 2, 4, 6, and 7 were exercised and committed individually. Task 5's
+agent configuration and exploration/planning delegation were also committed,
+but its full feature run remains pending. Task 3's delegated plan is ready
+and its implementation/review chain awaits explicit approval of `/lowercase`.
+No application files changed during Workshop 2, and no merge request was
+opened for the unfinished feature exercise.
