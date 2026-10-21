@@ -172,3 +172,25 @@ copilot --agent planner -p 'Plan GET /lowercase in the .NET starter; do not impl
 The exercise returned a plan for `/lowercase`, its error responses, OpenAPI,
 HTTP examples, and executable regression checks. It stopped for plan approval
 without changing application code or claiming to have run checks.
+
+### Task 2: reviewer («Lag en read-only reviewer»)
+
+`.github/agents/reviewer.agent.md` also grants only `read` and `search`.
+GPT-6.1 Sol was available in `/model`; it gives a different model-family
+perspective from the Claude implementation sessions used in Workshop 1.
+The criteria focus on exact examples, response contracts, invalid input,
+regressions, and verification evidence, not style preferences.
+
+A first invocation with the branch diff exited without a diagnostic.
+A smaller read-only invocation succeeded and inspected the current
+`/reverse` and `/uppercase` implementations. It found no actionable defects
+against the agreed examples and explicitly reported that it had not run
+runtime checks. That is a static review, not proof that tests passed or
+that the entire branch diff was reviewed.
+
+```bash
+copilot --agent reviewer -p 'Review the text endpoints against the agreed examples. Do not edit or run checks.'
+```
+
+When reviewing a branch against `main`, supply the diff or base content:
+the reviewer has no shell tool to obtain Git's diff for itself.
