@@ -273,3 +273,25 @@ The full multi-file implementation exercise remains pending plan approval.
 The run also surfaced avoidable questions about script names and workshop
 task numbering; future assignments should name the exercise and file scope
 explicitly rather than asking the specialists to infer them.
+
+### Task 6: bounded loop («Evaluator–optimizer-løkke»)
+
+`.github/skills/kvalitetsloop/SKILL.md` delegates scoped repairs to
+`implementer` and static reviews to `reviewer`. Every review attempt consumes
+one of at most three rounds, including failed/incomplete attempts. It stops
+with remaining blockers for human input at the cap; no fourth repair/review
+cycle is permitted. A clean static review without passing executable checks
+is not success. This limit is behavioral guidance, not a runtime-enforced
+budget or proof that a model cannot ignore it.
+
+The exercise used a deliberately seeded wrong assertion in
+`.github/hooks/tests/test_guard_contract.py`: it expected `{}` for malformed
+null arguments, while the existing guard correctly returned `deny`.
+The caller observed that exact assertion fail before delegation. The
+orchestrator then invoked `implementer` once to repair it and add malformed
+input cases, and `reviewer` once for a clean static review.
+The worker's test command lacked approval in prompt mode; it reported that
+honestly. The caller subsequently ran all ten guard tests successfully.
+This was one repair and one review, not a test of exhausting all three rounds.
+An earlier invocation exited silently and was replaced by a narrower prompt.
+No application code or guard behavior was changed for this exercise.
