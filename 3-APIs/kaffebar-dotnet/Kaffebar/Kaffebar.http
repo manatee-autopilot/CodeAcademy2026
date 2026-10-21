@@ -35,22 +35,32 @@ GET {{host}}/uppercase?text=
 Accept: application/json
 
 ### Snu tekst
+# Forventet: 200 OK
+# {"result":"Werdna, olleh"}
 GET {{host}}/reverse?text=Hello,%20Andrew
 Accept: application/json
 
 ### Snu tekst – mangler text (gir 400)
+# Forventet: 400 Bad Request
+# {"error":"Parameteren 'text' er påkrevd."}
 GET {{host}}/reverse
 Accept: application/json
 
 ### Store bokstaver
+# Forventet: 200 OK
+# {"result":"HELLO, ANDREW"}
 GET {{host}}/uppercase?text=Hello,%20Andrew
 Accept: application/json
 
 ### Store bokstaver – blank text (gir 400)
+# Forventet: 400 Bad Request
+# {"error":"Parameteren 'text' er påkrevd."}
 GET {{host}}/uppercase?text=%20%20
 Accept: application/json
 
 ### Store bokstaver – mangler text (gir 400)
+# Forventet: 400 Bad Request
+# {"error":"Parameteren 'text' er påkrevd."}
 GET {{host}}/uppercase
 Accept: application/json
 

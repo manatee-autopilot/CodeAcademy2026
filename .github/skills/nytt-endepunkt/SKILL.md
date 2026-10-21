@@ -8,6 +8,9 @@ description: Add or change an HTTP endpoint in the C#/.NET Kaffebar starter at 3
 1. Read the repository instructions, the starter's `Kaffebar/Program.cs`,
    `Kaffebar/Kaffebar.http`, and README. Identify the requested method, route,
    request, response, and invalid-input behavior. Ask if examples conflict.
+   For a new endpoint or behavior change, first use `feature-workflow` and
+   stop for approval of its specific plan. If that plan is already approved
+   and this skill is its implementation step, continue without planning again.
 2. Follow the existing Minimal API style and record DTOs. Do not copy the
    `-solution` application or change unrelated endpoints. Reuse existing
    response shapes for related operations unless a change is requested.
@@ -23,6 +26,8 @@ description: Add or change an HTTP endpoint in the C#/.NET Kaffebar starter at 3
    and exercise exact output values, invalid input, and the existing `/menu`.
    Stop only the process you started. Use managed process tools or a numeric
    PID, not name-based kills or command substitutions in `kill`.
+   If process tools are unavailable, ask the user to run the server rather
+   than leaving a detached process behind.
 7. Run relevant automated tests if present; otherwise explicitly report that
    there is no test project and distinguish HTTP checks from a test suite.
    Report permission failures instead of claiming checks ran.
