@@ -152,3 +152,23 @@ instructions or a checklist at the right time is not technically enforced.
 Report these limits rather than bypassing permissions or inventing results.
 The existing dependency graph also reports NU1903 for `Microsoft.OpenApi`
 2.0.0; no dependency upgrades were made as part of this harness workshop.
+
+## Workshop 2: agent team
+
+Tasks continue from Workshop 1's final branch, with a separate branch and
+commit for each task. Publish only to `origin`, the participant's fork.
+
+### Task 1: planner («Lag en planner-agent»)
+
+`.github/agents/planner.agent.md` grants only `read` and `search`. The planner
+cannot edit files or execute shell commands. Its selected model, Claude Opus
+5.5, was available in the CLI's `/model` picker and is used for reasoning
+about affected files, behavior, tests, and risks rather than implementation.
+
+```bash
+copilot --agent planner -p 'Plan GET /lowercase in the .NET starter; do not implement.'
+```
+
+The exercise returned a plan for `/lowercase`, its error responses, OpenAPI,
+HTTP examples, and executable regression checks. It stopped for plan approval
+without changing application code or claiming to have run checks.

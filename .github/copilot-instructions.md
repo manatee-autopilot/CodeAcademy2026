@@ -1,6 +1,6 @@
-# Workshop 1 instructions
+# AI workshop instructions
 
-- Workshop 1 targets `3-APIs/kaffebar-dotnet`, not the `-solution` project.
+- Workshops 1 and 2 target `3-APIs/kaffebar-dotnet`, not the `-solution` project.
   Leave unrelated workshop folders and reference solutions unchanged.
 - Add request examples to `Kaffebar/Kaffebar.http` and document new routes
   in `3-APIs/kaffebar-dotnet/README.md`.
