@@ -194,3 +194,50 @@ copilot --agent reviewer -p 'Review the text endpoints against the agreed exampl
 
 When reviewing a branch against `main`, supply the diff or base content:
 the reviewer has no shell tool to obtain Git's diff for itself.
+
+### Task 3: chain («Koble agentene sammen») — awaiting approval
+
+The main CLI session delegated the `/lowercase` plan to `planner`, showed
+the plan, and stopped for human approval. Approval was unavailable, so
+neither the endpoint nor the full implementation/reviewer chain was run.
+The proposed executable check uses Python 3's standard library and an
+already-running local server; no new dependencies are needed.
+
+### Task 4: hook («Legg inn en guardrail med hook»)
+
+`.github/hooks/guardrails.json` registers `preToolUse` for all tools rather
+than just shell calls, so direct file reads of `.env` are covered too.
+The executable `guard.sh` wrapper calls `guard.py` (Python 3 standard library).
+The handler parses structured JSON, accepts camelCase and compatible
+snake_case input, and returns a denial with an explicit reason for:
+
+- Recursive `rm`, including combined short flags and `--recursive`.
+- `git push` with force flags, including `--force-with-lease`.
+- Direct `.env` and `.env.*` paths; `.env.example` remains usable.
+- Malformed JSON or shell arguments that cannot be inspected.
+
+Other calls return `{}` and still go through normal CLI permissions. Source
+text mentioning `.env` does not by itself block an edit to a non-secret path.
+The shell check conservatively denies even harmless references to a secret
+filename; it does not distinguish every read from a literal string.
+
+```bash
+python3 -B -m unittest discover -s .github/hooks/tests -v
+```
+
+Seven tests passed using synthetic tool payloads: destructive strings were
+never executed, and no secret files were opened. A fresh CLI session also
+attempted only `printf "%s\n" .env` and received the hook's explicit denial.
+That proves live hook discovery without risking a force push or file read.
+
+This is a learning example, not a shell interpreter or security boundary.
+Aliases, encoded commands, nested interpreters, and indirect path access may
+evade it; PowerShell parsing is not fully supported. A missing Python
+interpreter makes the hook fail. Current CLI documentation says command-hook
+errors deny calls, but hook timeouts fall through to normal permissions.
+Use sandboxing, permission deny-lists, and review as additional layers.
+
+Configuration was checked against the official
+[hooks reference](https://docs.github.com/en/copilot/reference/hooks-reference)
+and [agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration),
+not assumed solely from workshop examples.
